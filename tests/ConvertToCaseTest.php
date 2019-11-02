@@ -10,14 +10,17 @@ class ConvertToCaseTest extends TestCase
     /**
      * @test
      * @dataProvider provider
+     * @param $input
+     * @param $output
+     * @param $case
      */
-    public function itCanConvertToCamelCase($input, $output, $case)
+    public function itCanConvertToCamelCase(array $input, array $output, string $case)
     {
         $class = new class extends ConvertToCase { };
 
         $array = $class->convertKeysToCase(
             $case,
-            $input,
+            $input
         );
 
         $this->assertEquals($output, $array);
