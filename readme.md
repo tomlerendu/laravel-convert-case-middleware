@@ -1,6 +1,8 @@
 Laravel Convert Case Middleware
 =
 
+[![Actions Status](https://github.com/tomlerendu/laravel-convert-case-middleware/workflows/Tests/badge.svg)](https://github.com/tomlerendu/laravel-convert-case-middleware/actions)
+
 Convert requests from camel case to snake case. Convert responses from snake case to camel case.
 
 Why?
