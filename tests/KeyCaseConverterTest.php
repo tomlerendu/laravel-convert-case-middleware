@@ -2,11 +2,25 @@
 
 namespace TomLerendu\LaravelConvertCaseMiddleware\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use TomLerendu\LaravelConvertCaseMiddleware\ConvertToCase;
+use TomLerendu\LaravelConvertCaseMiddleware\KeyCaseConverter;
 
-class ConvertToCaseTest extends TestCase
+class KeyCaseConverterTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function itThrowsAnInvalidArgumentExceptionWhenCaseIsInvalid()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        (new KeyCaseConverter())->convert(
+            'invalid',
+            ['test' => 'data']
+        );
+    }
+
     /**
      * @test
      * @dataProvider provider
@@ -16,9 +30,7 @@ class ConvertToCaseTest extends TestCase
      */
     public function itCanConvertToCamelCase(array $input, array $output, string $case)
     {
-        $class = new class extends ConvertToCase { };
-
-        $array = $class->convertKeysToCase(
+        $array = (new KeyCaseConverter())->convert(
             $case,
             $input
         );
@@ -32,27 +44,27 @@ class ConvertToCaseTest extends TestCase
             [
                 ['one_key' => 'value'],
                 ['oneKey' => 'value'],
-                ConvertToCase::CASE_CAMEL,
+                KeyCaseConverter::CASE_CAMEL,
             ],
             [
                 ['test_1' => 1, 'test_2' => 2, 'inner' => ['inner_test' => 'inner_test']],
                 ['test1' => 1, 'test2' => 2, 'inner' => ['innerTest' => 'inner_test']],
-                ConvertToCase::CASE_CAMEL,
+                KeyCaseConverter::CASE_CAMEL,
             ],
             [
                 ['testOne' => 1, 'testTwo' => 2, 'inner' => ['innerTest' => 'inner_test']],
                 ['test_one' => 1, 'test_two' => 2, 'inner' => ['inner_test' => 'inner_test']],
-                ConvertToCase::CASE_SNAKE,
+                KeyCaseConverter::CASE_SNAKE,
             ],
             [
                 [],
                 [],
-                ConvertToCase::CASE_SNAKE,
+                KeyCaseConverter::CASE_SNAKE,
             ],
             [
                 ['no' => 'change'],
                 ['no' => 'change'],
-                ConvertToCase::CASE_SNAKE,
+                KeyCaseConverter::CASE_SNAKE,
             ],
         ];
     }

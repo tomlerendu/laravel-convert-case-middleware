@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class ConvertResponseToCamelCase extends ConvertToCase
+class ConvertResponseToCamelCase
 {
     /**
      * Handle an incoming request.
@@ -21,8 +21,8 @@ class ConvertResponseToCamelCase extends ConvertToCase
 
         if ($response instanceof JsonResponse) {
             $response->setData(
-                $this->convertKeysToCase(
-                    self::CASE_CAMEL,
+                resolve(KeyCaseConverter::class)->convert(
+                    KeyCaseConverter::CASE_CAMEL,
                     json_decode($response->content(), true)
                 )
             );

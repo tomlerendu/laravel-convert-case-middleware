@@ -5,7 +5,7 @@ namespace TomLerendu\LaravelConvertCaseMiddleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class ConvertRequestToSnakeCase extends ConvertToCase
+class ConvertRequestToSnakeCase
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class ConvertRequestToSnakeCase extends ConvertToCase
     public function handle(Request $request, Closure $next)
     {
         $request->replace(
-            $this->convertKeysToCase(
-                self::CASE_SNAKE,
+            resolve(KeyCaseConverter::class)->resolve(
+                KeyCaseConverter::CASE_SNAKE,
                 $request->all()
             )
         );
